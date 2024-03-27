@@ -1,43 +1,43 @@
 import java.util.Scanner;
-
-public class ExercicioSete {
+public class ExercicioSeteMelhorado {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        System.out.print("Valor para a linha: ");
-        int linha = sc.nextInt();
-        sc.nextLine();
-        System.out.print("Valor para a coluna: ");
-        int coluna = sc.nextInt();
-        double[][] matriz = new double[linha][coluna];
-        
-        for(int i = 0; i < linha; i++) {
-            int n = fat(i);
-            for(int j = 0; j < coluna; j++) {
-                int p = fat(j);
-                int val = fat(i - j);
-                double c = (double)n / (p * (double)val);
-                if (c > 2 * fat(i + j)) {
-                    c = 2 * fat(j + i);
+        System.out.print("Ordem: ");
+        int ordem = sc.nextInt();
+        double matriz[][] = new double[ordem][ordem];
+        for (int i = 0; i < matriz.length; i++) {
+            for (int j = 0; j < matriz.length; j++) {
+                double fati = 1, fatj = 1, fatij = 1;
+                double cs =0;
+                if(j==i){
+                    cs = 1;
                 }
-                matriz[i][j] = c;
-            }
-        } 
-        for(int i = 0; i < linha; i++) {
-            for(int j = 0; j < coluna; j++) {
-                System.out.printf("%.2f\t", matriz[i][j]);
+                else if(j<i){
+                    if(j==0){
+                        cs = 1;
+                    }
+                    else{
+                        for(int k =1; k<=i; k++){
+                            fati*=k;
+                            if(k<=j){
+                                fatj*=k;
+                            }
+                            if(k<=(i-j)){
+                                fatij*=k;
+                            }
+                        }
+                        cs = fati/(fatj*fatij);
+                        if(cs >2*fatij){
+                        cs = 2*fatij;
+                        }
+                    }
+                }
+                matriz[i][j] = cs;
+                System.out.print(" " + matriz[i][j]);
             }
             System.out.println();
+            }
+            sc.close();
         }
-        sc.close();
-    }
-    private static int fat(int valor) {
-        if (valor == 0) {
-            return 1;
-        }
-        int fatorial = 1;
-        for (int i = valor; i >= 2; i--) {
-            fatorial *= i;
-        }
-        return fatorial;
-    }
 }
+
